@@ -1,4 +1,6 @@
+import PodcastCard from '@/components/podcastCard'
 import { Button } from '@/components/ui/button'
+import { podcastData } from '@/constants'
 import React from 'react'
 
 const Home = () => {
@@ -11,7 +13,15 @@ const Home = () => {
           className="text-20 font-bold text-white-1">
           Trending Podcasts
         </h1>
-        <Button className='text-white-1 bg-orange-1'>Button</Button>
+        {
+          /* id,title,description,imgURL */
+          podcastData.map((podcast) => (
+            <PodcastCard
+              key={podcast.id}
+              {...podcast}
+            />
+          ))
+        }
       </section>
     </div>
   )
