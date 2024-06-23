@@ -13,15 +13,17 @@ const Home = () => {
           className="text-20 font-bold text-white-1">
           Trending Podcasts
         </h1>
-        {
-          /* id,title,description,imgURL */
-          podcastData.map((podcast) => (
-            <PodcastCard
-              key={podcast.id}
-              {...podcast}
-            />
-          ))
-        }
+        <div className='podcast_grid'>
+          {
+            /* id,title,description,imgURL */
+            podcastData.map((podcast) => (
+              <PodcastCard
+                key={podcast.id}
+                {...podcast}
+              />
+            ))
+          }
+        </div>
       </section>
     </div>
   )
