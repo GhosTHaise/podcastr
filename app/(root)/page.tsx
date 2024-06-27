@@ -5,7 +5,7 @@ import { useQuery } from "convex/react";
 import { api } from '@/convex/_generated/api';
 
 const Home = () => {
-  const tasks = useQuery(api.tasks.get);
+  /* const tasks = useQuery(api.tasks.get); */
   return (
     <div
       className='mt-9 flex flex-col gap-9'>
@@ -15,9 +15,9 @@ const Home = () => {
           className="text-20 font-bold text-white-1">
           Trending Podcasts
         </h1>
-        <main className="flex min-h-screen flex-col items-center justify-between p-24 text-white">
+        {/* <main className="flex min-h-screen flex-col items-center justify-between p-24 text-white">
           {tasks?.map(({ _id, text }: { _id: string, text: string }) => <div key={_id}>{text}</div>)}
-        </main>
+        </main> */}
         <div className='podcast_grid'>
           {
             /* id,title,description,imgURL */
