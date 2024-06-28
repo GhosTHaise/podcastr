@@ -23,6 +23,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
+import { useState } from "react"
+import { Textarea } from "@/components/ui/textarea"
 
 const FormSchema = z.object({
     username: z.string().min(2, {
@@ -31,6 +33,9 @@ const FormSchema = z.object({
 })
 
 export default function CreatePodcast() {
+    const [voiceType, setVoiceType] = useState<string | null>(null)
+    const voiceCategories = ["alloy", "shimmer", "nova", "echo", "fable", "onyx"]
+
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
@@ -72,13 +77,13 @@ export default function CreatePodcast() {
                             <Label className="text-16 font-bold text-white-1">
                                 Select AI Voice
                             </Label>
-                            <Select>
+                            <Select onValueChange={(value) => setVoiceType(value)}>
                                 <SelectTrigger className={cn("text-16 w-full border-none bg-black-1 text-gray-1")}>
                                     <SelectValue placeholder="Select AI Voice" className="placeholder:text-gray-1" />
                                 </SelectTrigger>
                                 <SelectContent className="text-16 border-none bg-black-1 font-bold text-white-1 focus:ring-orange-1">
                                     {
-                                        ["Voice 1", "Voice 2"].map((category) => (
+                                        voiceCategories.map((category) => (
                                             <SelectItem key={category} value={category} className="capitalize focus:bg-orange-1">
                                                 {category}
                                             </SelectItem>
@@ -86,8 +91,31 @@ export default function CreatePodcast() {
                                     }
                                 </SelectContent>
                             </Select>
-
+                            {
+                                voiceType && (
+                                    <audio
+                                        src={`/${voiceType}.mp3`}
+                                        autoPlay
+                                        className="hidden"
+                                    />
+                                )
+                            }
                         </div>
+                        <FormField
+                            control={form.control}
+                            name="podcastDescription"
+                            render={({ field }) => (
+                                <FormItem className="flex flex-col gap-2.5">
+                                    <FormLabel className="text-16 font-bold text-white-1">Description</FormLabel>
+                                    <FormControl>
+                                        <Textarea
+                                            className="input-class focus-visible:ring-orange-1"
+                                            placeholder="GhosT Pro Podcast" {...field} />
+                                    </FormControl>
+                                    <FormMessage className="text-white-1" />
+                                </FormItem>
+                            )}
+                        />
                     </div>
                 </form>
             </Form>
