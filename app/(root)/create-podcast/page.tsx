@@ -110,7 +110,7 @@ export default function CreatePodcast() {
                                     <FormControl>
                                         <Textarea
                                             className="input-class focus-visible:ring-orange-1"
-                                            placeholder="GhosT Pro Podcast" {...field} />
+                                            placeholder="Write a short description about the podcast" {...field} />
                                     </FormControl>
                                     <FormMessage className="text-white-1" />
                                 </FormItem>
