@@ -3,8 +3,14 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
 
-import { Button } from "@/components/ui/button"
 import {
     Form,
     FormControl,
@@ -15,6 +21,10 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { cn } from "@/lib/utils"
+import { useState } from "react"
+import { Textarea } from "@/components/ui/textarea"
 
 const FormSchema = z.object({
     username: z.string().min(2, {
@@ -23,6 +33,9 @@ const FormSchema = z.object({
 })
 
 export default function CreatePodcast() {
+    const [voiceType, setVoiceType] = useState<string | null>(null)
+    const voiceCategories = ["alloy", "shimmer", "nova", "echo", "fable", "onyx"]
+
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
@@ -37,30 +50,73 @@ export default function CreatePodcast() {
     }
 
     return (
-        <section>
+        <section className="mt-10 flex flex-col">
             <h1
                 className="text-20 font-bold text-white-1">
                 Create Podcast
             </h1>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
-                    <FormField
-                        control={form.control}
-                        name="username"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Username</FormLabel>
-                                <FormControl>
-                                    <Input placeholder="shadcn" {...field} />
-                                </FormControl>
-                                <FormDescription>
-                                    This is your public display name.
-                                </FormDescription>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <Button type="submit">Submit</Button>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="mt-12 flex flex-col w-full">
+                    <div className="flex flex-col gap-[30px] border-b border-black-5 pb-10">
+                        <FormField
+                            control={form.control}
+                            name="podcastTitle"
+                            render={({ field }) => (
+                                <FormItem className="flex flex-col gap-2.5">
+                                    <FormLabel className="text-16 font-bold text-white-1">Username</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            className="input-class focus-visible:ring-orange-1"
+                                            placeholder="GhosT Pro Podcast" {...field} />
+                                    </FormControl>
+                                    <FormMessage className="text-white-1" />
+                                </FormItem>
+                            )}
+                        />
+                        <div className="flex flex-col gap-2.5">
+                            <Label className="text-16 font-bold text-white-1">
+                                Select AI Voice
+                            </Label>
+                            <Select onValueChange={(value) => setVoiceType(value)}>
+                                <SelectTrigger className={cn("text-16 w-full border-none bg-black-1 text-gray-1")}>
+                                    <SelectValue placeholder="Select AI Voice" className="placeholder:text-gray-1" />
+                                </SelectTrigger>
+                                <SelectContent className="text-16 border-none bg-black-1 font-bold text-white-1 focus:ring-orange-1">
+                                    {
+                                        voiceCategories.map((category) => (
+                                            <SelectItem key={category} value={category} className="capitalize focus:bg-orange-1">
+                                                {category}
+                                            </SelectItem>
+                                        ))
+                                    }
+                                </SelectContent>
+                            </Select>
+                            {
+                                voiceType && (
+                                    <audio
+                                        src={`/${voiceType}.mp3`}
+                                        autoPlay
+                                        className="hidden"
+                                    />
+                                )
+                            }
+                        </div>
+                        <FormField
+                            control={form.control}
+                            name="podcastDescription"
+                            render={({ field }) => (
+                                <FormItem className="flex flex-col gap-2.5">
+                                    <FormLabel className="text-16 font-bold text-white-1">Description</FormLabel>
+                                    <FormControl>
+                                        <Textarea
+                                            className="input-class focus-visible:ring-orange-1"
+                                            placeholder="Write a short description about the podcast" {...field} />
+                                    </FormControl>
+                                    <FormMessage className="text-white-1" />
+                                </FormItem>
+                            )}
+                        />
+                    </div>
                 </form>
             </Form>
         </section>
