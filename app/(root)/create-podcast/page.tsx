@@ -25,6 +25,9 @@ import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
 import { useState } from "react"
 import { Textarea } from "@/components/ui/textarea"
+import GeneratePodcast from "@/components/forms/generatePodcast"
+import GenerateThumbnail from "@/components/forms/generateThumbnail"
+import { Button } from "@/components/ui/button"
 
 const FormSchema = z.object({
     username: z.string().min(2, {
@@ -116,6 +119,18 @@ export default function CreatePodcast() {
                                 </FormItem>
                             )}
                         />
+                    </div>
+                    <div className="flex flex-col pt-10">
+                        <GeneratePodcast />
+                        <GenerateThumbnail />
+                        <div className="mt-10 w-full">
+                            <Button
+                                type="submit"
+                                className="text-16 w-full bg-orange-1 py-4 font-extrabold 
+                                text-white-1 transition-all duration-500 hover:bg-black-1">
+                                Submit
+                            </Button>
+                        </div>
                     </div>
                 </form>
             </Form>
