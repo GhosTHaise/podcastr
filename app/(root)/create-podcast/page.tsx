@@ -28,6 +28,7 @@ import { Textarea } from "@/components/ui/textarea"
 import GeneratePodcast from "@/components/forms/generatePodcast"
 import GenerateThumbnail from "@/components/forms/generateThumbnail"
 import { Button } from "@/components/ui/button"
+import { Loader } from "lucide-react"
 
 const FormSchema = z.object({
     username: z.string().min(2, {
@@ -37,6 +38,7 @@ const FormSchema = z.object({
 
 export default function CreatePodcast() {
     const [voiceType, setVoiceType] = useState<string | null>(null)
+    const [isSubmitting, setIsSubmitting] = useState(false)
     const voiceCategories = ["alloy", "shimmer", "nova", "echo", "fable", "onyx"]
 
     const form = useForm<z.infer<typeof FormSchema>>({
@@ -128,7 +130,14 @@ export default function CreatePodcast() {
                                 type="submit"
                                 className="text-16 w-full bg-orange-1 py-4 font-extrabold 
                                 text-white-1 transition-all duration-500 hover:bg-black-1">
-                                Submit
+                                {isSubmitting ? (
+                                    <>
+                                        Submitting
+                                        <Loader size={20} className="animate-spin ml-2" />
+                                    </>
+                                ) : (
+                                    "Submit & Publish Podcast"
+                                )}
                             </Button>
                         </div>
                     </div>
