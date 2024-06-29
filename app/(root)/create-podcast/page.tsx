@@ -29,6 +29,7 @@ import GeneratePodcast from "@/components/forms/generatePodcast"
 import GenerateThumbnail from "@/components/forms/generateThumbnail"
 import { Button } from "@/components/ui/button"
 import { Loader } from "lucide-react"
+import { Id } from "@/convex/_generated/dataModel"
 
 const FormSchema = z.object({
     username: z.string().min(2, {
@@ -37,8 +38,16 @@ const FormSchema = z.object({
 })
 
 export default function CreatePodcast() {
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [imagePrompt, setImagePrompt] = useState<string>('');
+    const [iamgeUrl, setIamgeUrl] = useState<string>('');
+    const [imageStorageId, setImageStorageId] = useState<Id<"_storage"> | null>(null);
+    const [audioStorageId, setAudioStorageId] = useState<Id<"_storage"> | null>(null);
+    const [audioUrl, setAudioUrl] = useState<string>('');
+    const [audioDuration, setAudioDuration] = useState<number>(0);
     const [voiceType, setVoiceType] = useState<string | null>(null)
-    const [isSubmitting, setIsSubmitting] = useState(false)
+    const [voicePrompt, setVoicePrompt] = useState<string>('')
+
     const voiceCategories = ["alloy", "shimmer", "nova", "echo", "fable", "onyx"]
 
     const form = useForm<z.infer<typeof FormSchema>>({
