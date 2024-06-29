@@ -32,9 +32,8 @@ import { Loader } from "lucide-react"
 import { Id } from "@/convex/_generated/dataModel"
 
 const FormSchema = z.object({
-    username: z.string().min(2, {
-        message: "Username must be at least 2 characters.",
-    }),
+    podcastTitle: z.string().min(2),
+    podcastDescription: z.string().min(2),
 })
 
 export default function CreatePodcast() {
@@ -53,7 +52,8 @@ export default function CreatePodcast() {
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
-            username: "",
+            podcastTitle: "",
+            podcastDescription: ""
         },
     })
 
