@@ -25,7 +25,10 @@ const useGeneratePodcast = ({
         }
 
         try {
-
+            /* const response = await getPodcastAudio({
+                voice : voiceType,
+                input : voicePrompt
+            }) */
         } catch (error) {
             console.log("Error generation podcast");
             // todo: show error message 
