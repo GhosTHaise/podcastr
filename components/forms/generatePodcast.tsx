@@ -5,16 +5,27 @@ import { Textarea } from '../ui/textarea'
 import { Button } from '../ui/button'
 import { Loader } from 'lucide-react'
 
-const GeneratePodcast = ({
-    setAudioStorageId,
-    setAudio,
-    voiceType,
-    audio,
-    voicePrompt,
-    setVoicePrompt,
-    setAudioDuration }: GeneratePodcastProps) => {
+const useGeneratePodcast = (props: GeneratePodcastProps) => {
+    // TODO Logic for podcast generation 
+    return {
+        isGenerating: false,
+        generatePodcast: () => {
 
-    const [isGenereting, setisGenereting] = useState<boolean>(false)
+        }
+    }
+}
+
+const GeneratePodcast = (props: GeneratePodcastProps) => {
+    const {
+        setAudioStorageId,
+        setAudio,
+        voiceType,
+        audio,
+        voicePrompt,
+        setVoicePrompt,
+        setAudioDuration } = props
+    const { isGenerating, generatePodcast } = useGeneratePodcast(props)
+
     return (
         <div>
             <div className='flex flex-col gap-2.5'>
@@ -36,7 +47,7 @@ const GeneratePodcast = ({
                     type="submit"
                     className="text-16 bg-orange-1 py-4 font-bolf 
                                 text-white-1 transition-all">
-                    {isGenereting ? (
+                    {isGenerating ? (
                         <>
                             Generating
                             <Loader size={20} className="animate-spin ml-2" />
@@ -46,6 +57,17 @@ const GeneratePodcast = ({
                     )}
                 </Button>
             </div>
+            {
+                audio && (
+                    <audio
+                        controls
+                        src={audio}
+                        autoPlay
+                        className='mt-5'
+                        onLoadedMetadata={(e) => setAudioDuration(e.currentTarget.duration)}
+                    />
+                )
+            }
         </div>
     )
 }
