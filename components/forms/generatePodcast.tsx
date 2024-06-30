@@ -1,7 +1,9 @@
 import { GeneratePodcastProps } from '@/types'
 import { Label } from '@radix-ui/react-label'
-import React from 'react'
+import React, { useState } from 'react'
 import { Textarea } from '../ui/textarea'
+import { Button } from '../ui/button'
+import { Loader } from 'lucide-react'
 
 const GeneratePodcast = ({
     setAudioStorageId,
@@ -11,6 +13,8 @@ const GeneratePodcast = ({
     voicePrompt,
     setVoicePrompt,
     setAudioDuration }: GeneratePodcastProps) => {
+
+    const [isGenereting, setisGenereting] = useState<boolean>(false)
     return (
         <div>
             <div className='flex flex-col gap-2.5'>
@@ -27,8 +31,20 @@ const GeneratePodcast = ({
 
                 </Textarea>
             </div>
-            <div>
-
+            <div className='mt-5 w-full max-w-[200px]'>
+                <Button
+                    type="submit"
+                    className="text-16 bg-orange-1 py-4 font-bolf 
+                                text-white-1 transition-all">
+                    {isGenereting ? (
+                        <>
+                            Generating
+                            <Loader size={20} className="animate-spin ml-2" />
+                        </>
+                    ) : (
+                        "Generate"
+                    )}
+                </Button>
             </div>
         </div>
     )
