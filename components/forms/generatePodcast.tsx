@@ -25,12 +25,12 @@ const useGeneratePodcast = ({
 
     const getPodcastAudio = useAction(api.openai.generateAudioAction);
     const generatePodcast = async () => {
-        setIsGenerating(false)
-        setAudio('')
+        setIsGenerating(false);
+        setAudio('');
 
         if (!voicePrompt) {
             // todo: show error message
-            return setIsGenerating(false)
+            return setIsGenerating(false);
         }
 
         try {
@@ -48,12 +48,15 @@ const useGeneratePodcast = ({
             const storageId = (uploaded[0].response as any).storageId;
 
             setAudioStorageId(storageId);
-            const audioUrl = await getAudioUrl({ storageId })
+            const audioUrl = await getAudioUrl({ storageId });
+            setAudio(audioUrl!);
+
+            // todo : show success message
         } catch (error) {
             console.log("Error generation podcast");
             // todo: show error message 
         } finally {
-            setIsGenerating(false)
+            setIsGenerating(false);
         }
     }
     return {
