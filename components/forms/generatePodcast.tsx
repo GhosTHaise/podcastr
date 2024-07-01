@@ -8,6 +8,7 @@ import { useAction, useMutation } from 'convex/react'
 import { api } from '@/convex/_generated/api'
 import { v4 as uuidv4 } from "uuid";
 import { useUploadFiles } from "@xixixao/uploadstuff/react"
+import { useToast } from "@/components/ui/use-toast"
 
 const useGeneratePodcast = ({
     setAudioStorageId,
@@ -17,6 +18,7 @@ const useGeneratePodcast = ({
     voicePrompt,
     setVoicePrompt,
     setAudioDuration }: GeneratePodcastProps) => {
+    const { toast } = useToast();
     // todo: Logic for podcast generation 
     const [isGenerating, setIsGenerating] = useState<boolean>(false);
     const generateUploadUrl = useMutation(api.files.generateUploadUrl)
@@ -29,7 +31,10 @@ const useGeneratePodcast = ({
         setAudio('');
 
         if (!voicePrompt) {
-            // todo: show error message
+            toast({
+                title: "Please provide a voiceType to generate the podcast.",
+
+            })
             return setIsGenerating(false);
         }
 
@@ -51,10 +56,16 @@ const useGeneratePodcast = ({
             const audioUrl = await getAudioUrl({ storageId });
             setAudio(audioUrl!);
 
-            // todo : show success message
+            toast({
+                title: "Podcast generated successfully.",
+                variant: "destructive"
+            })
         } catch (error) {
             console.log("Error generation podcast");
-            // todo: show error message 
+            toast({
+                title: "Error creating a podcast.",
+                variant: "destructive"
+            })
         } finally {
             setIsGenerating(false);
         }
@@ -96,7 +107,8 @@ const GeneratePodcast = (props: GeneratePodcastProps) => {
                 <Button
                     type="submit"
                     className="text-16 bg-orange-1 py-4 font-bolf 
-                                text-white-1 transition-all">
+                                text-white-1 transition-all"
+                    onClick={generatePodcast}>
                     {isGenerating ? (
                         <>
                             Generating
