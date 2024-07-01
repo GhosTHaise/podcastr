@@ -92,7 +92,7 @@ export default function CreatePodcast() {
                             <Label className="text-16 font-bold text-white-1">
                                 Select AI Voice
                             </Label>
-                            <Select onValueChange={(value) => setVoiceType(value)}>
+                            <Select onValueChange={(value: any) => setVoiceType(value)}>
                                 <SelectTrigger className={cn("text-16 w-full border-none bg-black-1 text-gray-1")}>
                                     <SelectValue placeholder="Select AI Voice" className="placeholder:text-gray-1" />
                                 </SelectTrigger>
@@ -136,7 +136,7 @@ export default function CreatePodcast() {
                         <GeneratePodcast
                             setAudioStorageId={setAudioStorageId}
                             setAudio={setAudioUrl}
-                            voiceType={voiceType}
+                            voiceType={voiceType!}
                             audio={audioUrl}
                             voicePrompt={voicePrompt}
                             setVoicePrompt={setVoicePrompt}
